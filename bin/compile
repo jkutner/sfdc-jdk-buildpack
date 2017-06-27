@@ -23,9 +23,17 @@ AWS_CMD=$BUILD_DIR/vendor/awscli/bin/aws
 
 cd $BUILD_DIR
 
-############ Downloading jdk1.8.0_131_x64s
 SFDC_JDK_KEY=${SFDC_JDK_KEY:-"d5eab6c07320844df2961afd84f95df8"}
+SFDC_JDK_VERSION=${SFDC_JDK_VERSION:-"jdk1.8.0_131_x64"}
+
+############ Downloading jdk1.8.0_131_x64s
 echo "**** Downloading jdk1.8.0_131_x64 from s3Key:${SFDC_JDK_KEY}"
 ${AWS_CMD:?} s3 cp s3://${AWS_S3_BUCKET_NAME:?}/${SFDC_JDK_KEY} - | tar xzm --strip-components=1 -C . 2>&1
 echo "Completed downloading jdk1.8.0_131_x64 from s3Key:${SFDC_JDK_KEY}"
 ############
+
+# Set JAVA_HOME at runtime
+mkdir -p $BUILD_DIR/.profile.d
+cat >> $BUILD_DIR/.profile.d/sfdc-jdk.sh <<EOF
+export JAVA_HOME="${APP_HOME:-/app}/tools/Linux/jdk/$SFDC_JDK_VERSION"
+EOF

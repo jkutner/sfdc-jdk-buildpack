@@ -35,5 +35,5 @@ echo "Completed downloading jdk1.8.0_131_x64 from s3Key:${SFDC_JDK_KEY}"
 # Set JAVA_HOME at runtime
 mkdir -p $BUILD_DIR/.profile.d
 cat >> $BUILD_DIR/.profile.d/sfdc-jdk.sh <<EOF
-export JAVA_HOME="${APP_HOME:-/app}/tools/Linux/jdk/$SFDC_JDK_VERSION"
+export JAVA_HOME="\${HOME}/tools/Linux/jdk/$SFDC_JDK_VERSION"
 EOF
